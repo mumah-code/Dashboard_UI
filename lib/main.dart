@@ -1,6 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,15 +18,18 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // A widget which will be started on application startup
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
 
+class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,8 +73,74 @@ class MyHomePage extends StatelessWidget {
               ],
             ),
           ),
+          SafeArea(
+            child: Container(
+              color: Theme.of(context).primaryColor,
+              child: Container(
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(200),
+                    )),
+                child: GridView.count(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 40,
+                  mainAxisSpacing: 30,
+                  children: [
+                    dashBoardItem('videos', CupertinoIcons.play_rectangle,
+                        Colors.deepOrange),
+                    dashBoardItem(
+                        'Analytics', CupertinoIcons.graph_circle, Colors.green),
+                    dashBoardItem(
+                        'Audience', CupertinoIcons.person_2, Colors.purple),
+                    dashBoardItem(
+                        'Comments', CupertinoIcons.chat_bubble_2, Colors.brown),
+                    dashBoardItem('Revenue', CupertinoIcons.money_dollar_circle,
+                        Colors.indigo),
+                    dashBoardItem(
+                        'Upload', CupertinoIcons.add_circled, Colors.teal),
+                    dashBoardItem(
+                        'About', CupertinoIcons.question_circle, Colors.blue),
+                    dashBoardItem(
+                        'Contact', CupertinoIcons.phone, Colors.pinkAccent),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
         ],
       ),
     );
   }
+
+  dashBoardItem(String title, IconData iconData, Color background) => Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                  offset: const Offset(0, 5),
+                  color: Theme.of(context).primaryColor.withOpacity(.2),
+                  spreadRadius: 2,
+                  blurRadius: 5)
+            ]),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: background,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(iconData, color: Colors.white),
+            ),
+            const SizedBox(height: 8),
+            Text(title.toUpperCase()),
+          ],
+        ),
+      );
 }
